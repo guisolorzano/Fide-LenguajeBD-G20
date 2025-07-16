@@ -319,35 +319,3 @@ CREATE OR REPLACE PACKAGE BODY pkg_detalleventa AS
 END pkg_detalleventa;
 /
 
--- Paquete CRUD para PedidosProveedor
-CREATE OR REPLACE PACKAGE pkg_pedidos AS
-  PROCEDURE CrearPedido(p_proveedorid NUMBER, p_estado NVARCHAR2);
-  PROCEDURE LeerPedido(p_pedidoid IN NUMBER, p_result OUT SYS_REFCURSOR);
-  PROCEDURE ActualizarPedido(p_pedidoid IN NUMBER, p_estado NVARCHAR2);
-  PROCEDURE EliminarPedido(p_pedidoid IN NUMBER);
-END pkg_pedidos;
-/
-
-CREATE OR REPLACE PACKAGE BODY pkg_pedidos AS
-  PROCEDURE CrearPedido(p_proveedorid NUMBER, p_estado NVARCHAR2) IS
-  BEGIN
-    INSERT INTO PedidosProveedor (ProveedorID, Estado)
-    VALUES (p_proveedorid, p_estado);
-  END;
-
-  PROCEDURE LeerPedido(p_pedidoid IN NUMBER, p_result OUT SYS_REFCURSOR) IS
-  BEGIN
-    OPEN p_result FOR SELECT * FROM PedidosProveedor WHERE PedidoID = p_pedidoid;
-  END;
-
-  PROCEDURE ActualizarPedido(p_pedidoid IN NUMBER, p_estado NVARCHAR2) IS
-  BEGIN
-    UPDATE PedidosProveedor SET Estado = p_estado WHERE PedidoID = p_pedidoid;
-  END;
-
-  PROCEDURE EliminarPedido(p_pedidoid IN NUMBER) IS
-  BEGIN
-    DELETE FROM PedidosProveedor WHERE PedidoID = p_pedidoid;
-  END;
-END pkg_pedidos;
-/
